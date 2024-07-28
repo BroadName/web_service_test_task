@@ -1,0 +1,10 @@
+/.idea/
+/static
+.DS_Store
+/venv/
+/__pycache__/
+/employee/__pycache__/
+employee/migrations/__pycache__/
+/unit/__pycache__/
+unit/migrations/__pycache__/
+employees_records/__pycache__/

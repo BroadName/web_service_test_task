@@ -1,0 +1,18 @@
+{% extends "layout/basic.html" %}
+
+{% block title %}{{ unit.acronym }}{% endblock %}
+
+{% block content %}
+    <h1>Информация о подразделении</h1>
+    {% if unit %}
+        <p><strong>Код подразделения:</strong> {{ unit.code }}</p>
+        <p><strong>Полное наименование:</strong> {{ unit.organization_name }}</p>
+        <p><strong>Аббревиатура:</strong> {{ unit.acronym }}</p>
+        <p><strong>Дата создания:</strong> {{ unit.created_date }}</p>
+        <p><strong>Активен:</strong> {{ unit.is_active }}</p>
+        <p><strong>Дата ликвидации:</strong> {{ unit.liquidation_date }}</p>
+    {% else %}
+        <p>Подразделение не найдено.</p>
+    {% endif %}
+    <a href="{% url 'list_units' %}">Вернуться к списку отделов</a>
+{% endblock %}

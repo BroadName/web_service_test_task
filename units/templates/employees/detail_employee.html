@@ -1,0 +1,23 @@
+{% extends "layout/basic.html" %}
+
+{% block title %}Карта сотрудника{% endblock %}
+
+{% block content %}
+    <h1>Информация о сотруднике</h1>
+    {% if employee %}
+        <img src="{{ employee.photo.url }}" width="250" height="320">
+        <p><strong>ФИО:</strong> {{ employee.full_name }}</p>
+        <p><strong>Пол:</strong> {{ employee.gender }}</p>
+        <p><strong>Дата рождения:</strong> {{ employee.date_of_birthday }}</p>
+        <p><strong>Подразделение:</strong> {{ employee.unit.code }}</p>
+        <p><strong>Табельный номер:</strong> {{ employee.service_number }}</p>
+        <p><strong>Должность:</strong> {{ employee.position }}</p>
+        <p><strong>Номер телефона:</strong> {{ employee.phone_number }}</p>
+        <p><strong>Почта:</strong> {{ employee.email }}</p>
+        <p><strong>Дата приём/перевода-прибытия:</strong> {{ employee.entry_date }}</p>
+        <p><strong>Дата увольнения/перевода-выбытия:</strong> {{ employee.termination_date }}</p>
+    {% else %}
+        <p>Сотрудник не найден.</p>
+    {% endif %}
+    <a href="{% url 'list_employees' %}">Вернуться к списку сотрудников</a>
+{% endblock %}

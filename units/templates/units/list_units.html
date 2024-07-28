@@ -1,0 +1,15 @@
+{% extends "layout/basic.html" %}
+
+{% block content %}
+{% for unit in units %}
+<div>
+    <h2>{{ unit.organization_name }}</h2>
+    <p><strong>Код подразделения:</strong> {{ unit.code }}</p>
+    <p><strong>Полное наименование:</strong> {{ unit.organization_name }}</p>
+    <p><strong>Аббревиатура:</strong> {{ unit.acronym }}</p>
+    <p><strong>Дата создания:</strong> {{ unit.created_date }}</p>
+    <p><strong>Активен:</strong> {{ unit.is_active }}</p>
+    <p><strong>Дата ликвидации:</strong> {{ unit.liquidation_date }}</p>
+</div>
+{% endfor %}
+{% endblock %}
