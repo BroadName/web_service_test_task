@@ -20,4 +20,5 @@
         <p>Сотрудник не найден.</p>
     {% endif %}
     <a href="{% url 'list_employees' %}">Вернуться к списку сотрудников</a>
+    <a href="{% url 'edit_employee' employee.id %}">Обновить данные</a>
 {% endblock %}

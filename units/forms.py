@@ -13,6 +13,14 @@ class UnitForm(ModelForm):
                   'liquidation_date')
 
 
+class EditUnitForm(ModelForm):
+    class Meta:
+        model = Unit
+        fields = ('code',
+                  'organization_name',
+                  'acronym')
+
+
 class EmployeeForm(ModelForm):
     class Meta:
         model = Employee
@@ -27,3 +35,17 @@ class EmployeeForm(ModelForm):
                   'photo',
                   'entry_date',
                   'termination_date')
+
+
+class EditEmployeeForm(ModelForm):
+    class Meta:
+        model = Employee
+        fields = ('service_number',
+                  'full_name',
+                  'phone_number',
+                  'gender',
+                  'date_of_birthday',
+                  'unit',
+                  'position',
+                  'email',
+                  'photo')
