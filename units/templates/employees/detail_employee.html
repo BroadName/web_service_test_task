@@ -5,20 +5,47 @@
 {% block content %}
     <h1>Информация о сотруднике</h1>
     {% if employee %}
+        <p>Полных лет в компании: {{ time_in_company }} </p>
         <img src="{{ employee.photo.url }}" width="250" height="320">
         <p><strong>ФИО:</strong> {{ employee.full_name }}</p>
         <p><strong>Пол:</strong> {{ employee.gender }}</p>
         <p><strong>Дата рождения:</strong> {{ employee.date_of_birthday }}</p>
-        <p><strong>Подразделение:</strong> {{ employee.unit.code }}</p>
+        <p><strong>Подразделение:</strong> {{ employee.unit.organization_name }}</p>
         <p><strong>Табельный номер:</strong> {{ employee.service_number }}</p>
         <p><strong>Должность:</strong> {{ employee.position }}</p>
         <p><strong>Номер телефона:</strong> {{ employee.phone_number }}</p>
         <p><strong>Почта:</strong> {{ employee.email }}</p>
         <p><strong>Дата приём/перевода-прибытия:</strong> {{ employee.entry_date }}</p>
         <p><strong>Дата увольнения/перевода-выбытия:</strong> {{ employee.termination_date }}</p>
+
+        <div>
+
+            <form action="{% url 'list_employees' %}" style="display:inline;">
+                <button type="submit">Вернуться к списку работников</button>
+            </form>
+
+            <form action="{% url 'edit_employee' employee.id %}" style="display:inline;">
+                <button type="submit">Обновить данные</button>
+            </form>
+
+            <form method="post" action="{% url 'transfer_employee' employee.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Перевести сотрудника</button>
+            </form>
+            {% if not employee.termination_date %}
+                <form method="post" action="{% url 'fire_employee' employee.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Уволить сотрудника</button>
+                </form>
+            {% else %}
+                <form method="post" action="{% url 'fire_employee' employee.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Восстановить в должности</button>
+                </form>
+            {% endif %}
+        </div>
+
     {% else %}
         <p>Сотрудник не найден.</p>
     {% endif %}
-    <a href="{% url 'list_employees' %}">Вернуться к списку сотрудников</a>
-    <a href="{% url 'edit_employee' employee.id %}">Обновить данные</a>
 {% endblock %}

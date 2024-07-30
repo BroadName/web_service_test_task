@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 
@@ -20,7 +21,7 @@ class Unit(models.Model):
     acronym = models.CharField(max_length=20, verbose_name='Аббревиатура')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     is_active = models.BooleanField(default=True)
-    liquidation_date = models.DateTimeField(blank=True, verbose_name='Дата ликвидации')
+    liquidation_date = models.DateTimeField(blank=True, null=True, verbose_name='Дата ликвидации')
 
     def __str__(self):
         return self.organization_name
@@ -37,11 +38,17 @@ class Employee(models.Model):
     date_of_birthday = models.DateField(verbose_name='Дата рождения')
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT, related_name='employees', verbose_name='Подразделение')
     position = models.CharField(max_length=255, verbose_name='Должность')
-    phone_number = models.CharField(max_length=20, verbose_name='Номер телефона')
+    phone_number = models.CharField(max_length=20, unique=True, verbose_name='Номер телефона')
     email = models.EmailField(verbose_name='Email', unique=True)
     photo = models.ImageField(upload_to='photos/', default='default_man.png', verbose_name='Фотография')
-    entry_date = models.DateField(verbose_name='Дата приёма/перевода-прибытия')
-    termination_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения/перевода-выбытия')
+    entry_date = models.DateField(default=timezone.now, verbose_name='Дата приёма')
+    termination_date = models.DateField(blank=True, null=True, default=None, verbose_name='Дата увольнения')
+
+    def save(self, *args, **kwargs):
+        if self.photo == 'default_man.png':
+            if self.gender == 'Женский':
+                self.photo = 'default_woman.png'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.full_name
@@ -49,3 +56,11 @@ class Employee(models.Model):
     class Meta:
         verbose_name_plural = 'Работники'
         verbose_name = 'Работник'
+        ordering = ['-entry_date', 'full_name']
+
+
+class TransferEmployee(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Работник')
+    from_unit = models.ForeignKey(Unit, related_name='transfer_from', on_delete=models.CASCADE, verbose_name='Подразделение выбытия')
+    to_unit = models.ForeignKey(Unit, related_name='transfer_to', on_delete=models.CASCADE, verbose_name='Подразделение прибытия')
+    transfer_date = models.DateField(auto_now_add=True, verbose_name='Дата перевода')

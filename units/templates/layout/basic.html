@@ -14,11 +14,21 @@
             <h2>Новости</h2>
         </header>
         <nav>
-            <a href="{% url 'list_units' %}">Подразделения</a>
-            <a href="{% url 'list_employees' %}">Работники</a>
-            <a href="{% url 'add_unit' %}">Добавить подразделение</a>
-            <a href="{% url 'add_employee' %}">Добавить работника</a>
+            <form action="{% url 'list_units' %}" style="display:inline;">
+                <button type="submit">Подразделения</button>
+            </form>
 
+            <form action="{% url 'list_employees' %}" style="display:inline;">
+                <button type="submit">Работники</button>
+            </form>
+
+            <form action="{% url 'add_unit' %}" style="display:inline;">
+                <button type="submit">Добавить подразделение</button>
+            </form>
+
+            <form action="{% url 'add_employee' %}" style="display:inline;">
+                <button type="submit">Добавить работника</button>
+            </form>
         </nav>
         <main>
             {% block content %}

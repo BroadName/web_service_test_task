@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import list_units, detail_unit, UnitCreateView, list_employees,\
-    detail_employee, EmployeeCreateView, UnitUpdateView, EmployeeUpdateView, terminate_unit
+from .views import list_units, detail_unit, UnitCreateView, list_employees, fire_employee, \
+    detail_employee, EmployeeCreateView, UnitUpdateView, EmployeeUpdateView, terminate_unit, transfer_employee
 
 
 urlpatterns = [
@@ -16,4 +16,6 @@ urlpatterns = [
     path('employees/<int:employee_id>/', detail_employee, name='employee_detail'),
     path('employees/<int:pk>/edit/', EmployeeUpdateView.as_view(), name='edit_employee'),
     path('employees/', list_employees, name='list_employees'),
+    path('employees/<int:employee_id>/transfer/', transfer_employee, name='transfer_employee'),
+    path('employees/<int:employee_id>/fire/', fire_employee, name='fire_employee'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

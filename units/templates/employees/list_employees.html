@@ -1,14 +1,23 @@
 {% extends "layout/basic.html" %}
 
 {% block content %}
-{% for employee in employees %}
-    <li>
-    <div>
-        <p><strong>ФИО:</strong> {{ employee.full_name }}</p>
-        <p><strong>Подразделение:</strong> {{ employee.unit.code }}</p>
-        <p><strong>Табельный номер:</strong> {{ employee.service_number }}</p>
-        <p><strong>Должность:</strong> {{ employee.position }}</p>
-    </div>
-    </li>
-{% endfor %}
+    <h1>Список сотрудников</h1>
+    <form method="get" action="{% url 'list_employees' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Поиск</button>
+    </form>
+    <ul>
+        {% for employee in employees %}
+            <li>
+                <div>
+                    <p><strong>ФИО:</strong> {{ employee.full_name }}</p>
+                    <p><strong>Подразделение:</strong> {{ employee.unit.code }}</p>
+                    <p><strong>Табельный номер:</strong> {{ employee.service_number }}</p>
+                    <p><strong>Должность:</strong> {{ employee.position }}</p>
+                    <p><strong>Дата приёма на работу:</strong> {{ employee.entry_date }}</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

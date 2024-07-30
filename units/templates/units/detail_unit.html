@@ -11,13 +11,23 @@
         <p><strong>Дата создания:</strong> {{ unit.created_date }}</p>
         <p><strong>Активен:</strong> {{ unit.is_active }}</p>
         <p><strong>Дата ликвидации:</strong> {{ unit.liquidation_date }}</p>
+    <div>
+        {% if unit.is_active %}
+                <form method="post" action="{% url 'terminate_unit' unit.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Ликвидировать</button>
+                </form>
+            {% endif %}
+
+        <form action="{% url 'list_units' %}" style="display:inline;">
+            <button type="submit">Вернуться к списку отделов</button>
+        </form>
+
+        <form action="{% url 'edit_unit' unit.id %}" style="display:inline;">
+            <button type="submit">Редактировать</button>
+        </form>
+    </div>
     {% else %}
         <p>Подразделение не найдено.</p>
     {% endif %}
-    <form method="post" action="{% url 'terminate_unit' unit.id %}" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Ликвидировать</button>
-    </form>
-    <a href="{% url 'list_units' %}">Вернуться к списку отделов</a>
-    <a href="{% url 'edit_unit' unit.id %}">Редактировать</a>
 {% endblock %}

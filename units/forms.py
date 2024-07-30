@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django import forms
 
 from.models import Unit, Employee
 
@@ -8,9 +9,7 @@ class UnitForm(ModelForm):
         model = Unit
         fields = ('code',
                   'organization_name',
-                  'acronym',
-                  'is_active',
-                  'liquidation_date')
+                  'acronym')
 
 
 class EditUnitForm(ModelForm):
@@ -33,8 +32,7 @@ class EmployeeForm(ModelForm):
                   'position',
                   'email',
                   'photo',
-                  'entry_date',
-                  'termination_date')
+                  'entry_date')
 
 
 class EditEmployeeForm(ModelForm):
@@ -45,7 +43,21 @@ class EditEmployeeForm(ModelForm):
                   'phone_number',
                   'gender',
                   'date_of_birthday',
-                  'unit',
                   'position',
                   'email',
                   'photo')
+
+
+class TransferEmployeeForm(forms.Form):
+    to_unit = forms.ModelChoiceField(queryset=Unit.objects.all(), label='Подразделение прибытия')
+
+
+class SearchEmployeesForm(forms.Form):
+    KIND = (
+        ('entry_date', 'Действующие'),
+        ('transfer_date', 'Переведённые'),
+        ('termination_date', 'Уволенные')
+    )
+    kind_employee = forms.ChoiceField(choices=KIND, label='Статус сотрудников')
+    start = forms.DateField(label='Начальная дата', widget=forms.DateInput(attrs={'type': 'date'}))
+    end = forms.DateField(label='Конечная дата', widget=forms.DateInput(attrs={'type': 'date'}))
