@@ -11,7 +11,7 @@
         {% for employee in employees %}
             <li>
                 <div>
-                    <p><strong>ФИО:</strong> {{ employee.full_name }}</p>
+                    <p><strong>ФИО:</strong><a href="{{ employee.get_absolut_url }}"> {{ employee.full_name }}</a></p>
                     <p><strong>Подразделение:</strong> {{ employee.unit.code }}</p>
                     <p><strong>Табельный номер:</strong> {{ employee.service_number }}</p>
                     <p><strong>Должность:</strong> {{ employee.position }}</p>

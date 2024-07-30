@@ -3,7 +3,7 @@
 {% block content %}
 {% for unit in units %}
 <div>
-    <h2>{{ unit.organization_name }}</h2>
+    <h2><a href="{{ unit.get_absolut_url }}">{{ unit.organization_name }}</a></h2>
     <p><strong>Код подразделения:</strong> {{ unit.code }}</p>
     <p><strong>Полное наименование:</strong> {{ unit.organization_name }}</p>
     <p><strong>Аббревиатура:</strong> {{ unit.acronym }}</p>

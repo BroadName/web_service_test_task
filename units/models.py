@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.db import models
@@ -26,6 +27,9 @@ class Unit(models.Model):
     def __str__(self):
         return self.organization_name
 
+    def get_absolut_url(self):
+        return reverse('unit_detail', kwargs={'unit_id': str(self.pk)})
+
     class Meta:
         verbose_name_plural = 'Подразделения'
         verbose_name = 'Подразделение'
@@ -49,6 +53,9 @@ class Employee(models.Model):
             if self.gender == 'Женский':
                 self.photo = 'default_woman.png'
         super().save(*args, **kwargs)
+
+    def get_absolut_url(self):
+        return reverse('employee_detail', kwargs={'employee_id': str(self.pk)})
 
     def __str__(self):
         return self.full_name
